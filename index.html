@@ -200,7 +200,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>4.进入安装winpower的Windows系统，下载putty.exe，并放至:/desktop/ups目录</p>
-<p>5.写批处理脚本（123.bat）：<br>putty -ssh <a href="mailto:&#x72;&#111;&#x6f;&#x74;&#64;&#x31;&#57;&#50;&#46;&#x31;&#x36;&#x38;&#x2e;&#49;&#48;&#46;&#x36;">&#x72;&#111;&#x6f;&#x74;&#64;&#x31;&#57;&#50;&#46;&#x31;&#x36;&#x38;&#x2e;&#49;&#48;&#46;&#x36;</a> -pw password  -m C:\Users\username\Desktop\test.txt<br>#里面的路径根据情况更改</p>
+<p>5.写批处理脚本（123.bat）：<br>putty -ssh <a href="mailto:&#114;&#x6f;&#x6f;&#x74;&#64;&#x31;&#x39;&#x32;&#x2e;&#x31;&#x36;&#x38;&#x2e;&#49;&#x30;&#46;&#x36;">&#114;&#x6f;&#x6f;&#x74;&#64;&#x31;&#x39;&#x32;&#x2e;&#x31;&#x36;&#x38;&#x2e;&#49;&#x30;&#46;&#x36;</a> -pw password  -m C:\Users\username\Desktop\test.txt<br>#里面的路径根据情况更改</p>
 <p>6.新建一个txt文档，存放执行命令（test.txt）：<br>sh /vmfs/volumes/datastore1/ups/ups_shouhu.sh</p>
 <p>7.将123.bat放至开机启动文件夹</p>
 <h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>说明：<br>关机流程  ：  UPS关机-&gt;winpower 接受信号，Windows系统3分钟后关机，最多3分钟后ESXi主机PING Windows系统不通，1分钟后再次PING，仍然失败，写入log “AC POWER MAYBE off”然后关闭客户机4，等待2分钟后，关闭宿主机，执行完毕。<br>脚本执行流程：Windows开机，执行脚本，登录宿主机，执行apc.sh脚本，宿主机每隔3分钟PING Windows客户机，通过ping是否成功判定电源状态<br>注意：如果市电正常，但Windows关机或网断，或造成误判。</p>
@@ -274,7 +274,7 @@
 <h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><p>​    vi _config.yml </p>
 <p>​    node -v</p>
 <p>​    chmod -R 700 ~/.ssh/</p>
-<p>​    ssh -T <a href="mailto:&#103;&#x69;&#116;&#64;&#x67;&#105;&#116;&#x68;&#117;&#98;&#46;&#x63;&#111;&#109;">&#103;&#x69;&#116;&#64;&#x67;&#105;&#116;&#x68;&#117;&#98;&#46;&#x63;&#111;&#109;</a></p>
+<p>​    ssh -T <a href="mailto:&#x67;&#105;&#x74;&#64;&#103;&#x69;&#x74;&#104;&#x75;&#98;&#46;&#99;&#111;&#x6d;">&#x67;&#105;&#x74;&#64;&#103;&#x69;&#x74;&#104;&#x75;&#98;&#46;&#99;&#111;&#x6d;</a></p>
 <p>​    vi ~/.ssh/id_rsa.pub </p>
 <p>​    ssh-keygen</p>
 <p>OJBK，以上就是我使用的记录了，希望对有需要的人有帮助，我下一篇准备写一个搭建软路由的记录，有兴趣的也可以来坐坐，BBYE。</p>

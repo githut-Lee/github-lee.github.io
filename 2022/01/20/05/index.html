@@ -6,22 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>3.NAS篇：群晖系统的station应用 | Leeの日志</title>
+  <title>3.UPS篇：简单UPS如何做到控制终端关机 | Leeの日志</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="群晖系统的station应用环境硬件和系统先说环境，我是用一台老的笔记本搭建的黑群晖，所以更新什么的就不多想了；硬盘呢除了有一个USB外接硬盘外，其他的不影响使用；群晖系统是DSM 6.17 DS3615+ ##步骤 ###用户首先添加用户，在控制面版-&gt;用户，添加一些用户，如a,b,c ###photo stationphoto station，打开套件中心，搜索photo station">
+  <meta name="description" content="UPS思路：调试服务器想着断电自动关机，想了个招，算是曲线救国吧。如山特的UPS，支持VM的需要收费，为了节约成本，有了本思路；主机bios设置来电自动启动（这个好像没有什么卵用，正常关机后再来电不能自动开机）。 部署一台Windows系统，可以在虚拟机里面做，然后安装winpower，设置好自动关机策略； 1.虚拟机环境用的是ESXI6.7版本的，写一个脚本，执行当宿主机ping另外一个网址，当">
 <meta property="og:type" content="article">
-<meta property="og:title" content="3.NAS篇：群晖系统的station应用">
-<meta property="og:url" content="http://example.com/2022/01/18/03/index.html">
+<meta property="og:title" content="3.UPS篇：简单UPS如何做到控制终端关机">
+<meta property="og:url" content="http://example.com/2022/01/20/05/index.html">
 <meta property="og:site_name" content="Leeの日志">
-<meta property="og:description" content="群晖系统的station应用环境硬件和系统先说环境，我是用一台老的笔记本搭建的黑群晖，所以更新什么的就不多想了；硬盘呢除了有一个USB外接硬盘外，其他的不影响使用；群晖系统是DSM 6.17 DS3615+ ##步骤 ###用户首先添加用户，在控制面版-&gt;用户，添加一些用户，如a,b,c ###photo stationphoto station，打开套件中心，搜索photo station">
+<meta property="og:description" content="UPS思路：调试服务器想着断电自动关机，想了个招，算是曲线救国吧。如山特的UPS，支持VM的需要收费，为了节约成本，有了本思路；主机bios设置来电自动启动（这个好像没有什么卵用，正常关机后再来电不能自动开机）。 部署一台Windows系统，可以在虚拟机里面做，然后安装winpower，设置好自动关机策略； 1.虚拟机环境用的是ESXI6.7版本的，写一个脚本，执行当宿主机ping另外一个网址，当">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/images/03.png">
-<meta property="article:published_time" content="2022-01-18T02:39:59.169Z">
-<meta property="article:modified_time" content="2022-01-18T02:37:39.000Z">
+<meta property="og:image" content="http://example.com/images/02.png">
+<meta property="article:published_time" content="2022-01-20T01:19:41.308Z">
+<meta property="article:modified_time" content="2022-01-20T01:17:48.000Z">
 <meta property="article:author" content="Huan Lee">
 <meta property="article:tag" content="NAS,私有云,软路由,网络,python,脚本,服务端">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/images/03.png">
+<meta name="twitter:image" content="http://example.com/images/02.png">
   
     <link rel="alternative" href="/atom.xml" title="Leeの日志" type="application/atom+xml">
   
@@ -157,39 +157,56 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-03" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-05" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      3.NAS篇：群晖系统的station应用
+      3.UPS篇：简单UPS如何做到控制终端关机
     </h1>
   
 
         
-        <a href="/2022/01/18/03/" class="archive-article-date">
-  	<time datetime="2022-01-18T02:39:59.169Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-01-18</time>
+        <a href="/2022/01/20/05/" class="archive-article-date">
+  	<time datetime="2022-01-20T01:19:41.308Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-01-20</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="群晖系统的station应用"><a href="#群晖系统的station应用" class="headerlink" title="群晖系统的station应用"></a>群晖系统的station应用</h1><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><h3 id="硬件和系统"><a href="#硬件和系统" class="headerlink" title="硬件和系统"></a>硬件和系统</h3><p>先说环境，我是用一台老的笔记本搭建的黑群晖，所以更新什么的就不多想了；<br>硬盘呢除了有一个USB外接硬盘外，其他的不影响使用；<br>群晖系统是DSM 6.17 DS3615+</p>
-<p>##步骤</p>
-<p>###用户<br>首先添加用户，在控制面版-&gt;用户，添加一些用户，如a,b,c</p>
-<p>###photo station<br>photo station，打开套件中心，搜索photo station，下载安装即可，安装后会自动建立photos文件夹，然后复制图片到这个文件夹就可以使用photo station识别并使用了，接下来就是photo station的设置了；<br>1.打开photo station，新建一个相册，设置为公共相册（共享相册，这个是给大家看的），点击右键,选择编辑相册属性，设置权限；</p>
-<p>2.打开photo station，新建多个相册，设置为私密相册（这个是给用户们自己看的，如a），点击右键,选择编辑相册属性，设置权限（给谁看就把权限给谁，如a）；</p>
-<p>其他：也尝试了个人photo station，发现这个是为每个用户单独创建photo station服务，共享给其他用户是不可能的了，只能共享链接，非常不方便，不适合家庭这种各自独立但又能方便共享。</p>
-<p>photo station就说到这了，其他station基本上也跟这个差不太多，比这个还要简单点，就不在说了，下面说说移动端：</p>
-<p>我的手机是鸿蒙系统，这对于后面还是有影响的，咱们开始：<br>下载DS全家桶（也可以下载需要用到的），打开DS photo，登录就不说了，直接到界面，点击左上角的三道杠，选择“照片备份”，再点击右上角的三道竖杠，配置备份策略，然后等待备份完成；</p>
-<p>返回相册，可以看下是否是自己需要的，这个是跟前面设置相册属性里面的权限有关；</p>
-<p>然后就是DS AUDIO，这个遇到鸿蒙系统会有点异常，好在已经完美解决，正常打开这个app，里面的歌曲是跟NAS/music文件夹有关联，设置自定义歌单类似DS photo，当下载的时候会提示需要手机授权，然后确认就可以了，但是鸿蒙系统的反复设置权限仍然无法正常下载，遇到这个问题，就需要在授权界面，选择手机存储，找到手机的music文件夹，然后再授权，完美解决；</p>
-<p>其他的就不详细再说，说下跟公有云同步的设置，国内大多数还是用百度网盘多，先在NAS上面打开套件中心，搜索Cloud Sync，下载并安装，然后打开，按照提示设置，基本上也没有多大问题，这个跟百度网盘/我的应用/cloud 关联的。</p>
-<p>OJBK，以上就是我使用的记录了，希望对有需要的人有帮助，我下一篇准备写一个搭建软路由的记录，有兴趣的也可以来坐坐，BBYE。</p>
-<p><img src="/images/03.png" alt="alt"></p>
+        <h1 id="UPS"><a href="#UPS" class="headerlink" title="UPS"></a>UPS</h1><h2 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h2><p>调试服务器想着断电自动关机，想了个招，算是曲线救国吧。<br>如山特的UPS，支持VM的需要收费，为了节约成本，有了本思路；<br>主机bios设置来电自动启动（这个好像没有什么卵用，正常关机后再来电不能自动开机）。</p>
+<p>部署一台Windows系统，可以在虚拟机里面做，然后安装winpower，设置好自动关机策略；</p>
+<p>1.虚拟机环境用的是ESXI6.7版本的，写一个脚本，执行当宿主机ping另外一个网址，当ping失败时，自动关机，需要设置自身自启动策略来关闭客户机；</p>
+<p>2.注意winpower的关机时间+客户机的关机时间+宿主机的关机时间不能大于UPS支撑的时间。</p>
+<h2 id="步骤："><a href="#步骤：" class="headerlink" title="步骤："></a>步骤：</h2><p>esxi环境</p>
+<p>1.新增一台虚拟机，安装Windows系统，完成后安装winpower软件，并设置好断电策略</p>
+<p>2.进入esxi宿主机shell，写入如下脚本：<br>    cd vmfs/volumes/datastore1<br>    mkdir ups<br>    vi apc.sh</p>
+<p>apc.sh里面写入：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>#!/bin/sh<br>while<br>ping -c 1 192.168.10.7 &gt; /dev/null<br>[ $? -eq 0 ]; </p>
+<p>do</p>
+<p>echo ‘ AC Power OK ! ‘ &gt;&gt; /vmfs/volumes/datastore1/ups/ups.log;date &gt;&gt; /vmfs/volumes/datastore1/ups/ups.log</p>
+<p>sleep 180</p>
+<p>done</p>
+<p>echo ‘ AC Power maybe off, checking again after 1 minutes ! ‘ &gt;&gt; /vmfs/volumes/datastore1/ups/ups.log;date &gt;&gt; /vmfs/volumes/datastore1/ups/ups.log<br>#向log文件中写入这次异常并记录时间</p>
+<p>sleep 60<br>#等待60秒，可以根据你自己的需要修改</p>
+<p>ping -c 1 192.168.10.7 &gt; /dev/null</p>
+<p>if [ $? -eq 0 ]<br>then<br>echo ‘ Checkagain, AC Power OK ! ‘ &gt;&gt; /vmfs/volumes/datastore1/ups/ups.log;date &gt;&gt; /vmfs/volumes/datastore1/ups/ups.log<br>else</p>
+<p>echo ‘ AC Power is already off, shut down Esxi Now! ‘ &gt;&gt; /vmfs/volumes/datastore1/ups/ups.log;date &gt;&gt; /vmfs/volumes/datastore1/ups/ups.log</p>
+<p>vim-cmd vmsvc/power.shutdown 4</p>
+<p>sleep 120<br>/bin/shutdown.sh #关闭exsi主机<br>halt<br>fi</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>4.进入安装winpower的Windows系统，下载putty.exe，并放至:/desktop/ups目录</p>
+<p>5.写批处理脚本（123.bat）：<br>putty -ssh <a href="mailto:&#x72;&#111;&#x6f;&#x74;&#64;&#x31;&#57;&#50;&#46;&#x31;&#x36;&#x38;&#x2e;&#49;&#48;&#46;&#x36;">&#x72;&#111;&#x6f;&#x74;&#64;&#x31;&#57;&#50;&#46;&#x31;&#x36;&#x38;&#x2e;&#49;&#48;&#46;&#x36;</a> -pw password  -m C:\Users\username\Desktop\test.txt<br>#里面的路径根据情况更改</p>
+<p>6.新建一个txt文档，存放执行命令（test.txt）：<br>sh /vmfs/volumes/datastore1/ups/ups_shouhu.sh</p>
+<p>7.将123.bat放至开机启动文件夹</p>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>说明：<br>关机流程  ：  UPS关机-&gt;winpower 接受信号，Windows系统3分钟后关机，最多3分钟后ESXi主机PING Windows系统不通，1分钟后再次PING，仍然失败，写入log “AC POWER MAYBE off”然后关闭客户机4，等待2分钟后，关闭宿主机，执行完毕。<br>脚本执行流程：Windows开机，执行脚本，登录宿主机，执行apc.sh脚本，宿主机每隔3分钟PING Windows客户机，通过ping是否成功判定电源状态<br>注意：如果市电正常，但Windows关机或网断，或造成误判。</p>
+<p><img src="/images/02.png" alt="alt"></p>
 
       
 
@@ -269,7 +286,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2022/01/18/03/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2022/01/20/05/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -283,18 +300,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2022/01/18/04/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          3.NAS篇：搭建的hexo博客挂到GitHub（踩了很多坑）
-        
-      </div>
-    </a>
   
-  
-    <a href="/2022/01/17/02/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">2.笔记本改群晖NAS记录</div>
+    <a href="/2022/01/18/04/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">3.NAS篇：搭建的hexo博客挂到GitHub（踩了很多坑）</div>
       <i class="icon-circle-right"></i>
     </a>
   

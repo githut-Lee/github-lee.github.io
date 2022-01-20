@@ -6,18 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>3.NAS篇：群晖系统的station应用 | Leeの日志</title>
+  <title>3.NAS篇：搭建的hexo博客挂到GitHub（踩了很多坑） | Leeの日志</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="群晖系统的station应用环境硬件和系统先说环境，我是用一台老的笔记本搭建的黑群晖，所以更新什么的就不多想了；硬盘呢除了有一个USB外接硬盘外，其他的不影响使用；群晖系统是DSM 6.17 DS3615+ ##步骤 ###用户首先添加用户，在控制面版-&gt;用户，添加一些用户，如a,b,c ###photo stationphoto station，打开套件中心，搜索photo station">
+  <meta name="description" content="群晖NAS   环境环境不细说，还是老笔记本搭建的NAS，已安装node.js 12版本，hexo安装完，本地访问 local:4000 没有问题，开始挂GitHub，FLOW ME. 步骤​    vi _config.yml  ​    node -v ​    chmod -R 700 ~&#x2F;.ssh&#x2F; ​    ssh -T &amp;#103;&amp;#x69;&amp;#116;&amp;#64;&amp;#x67;&amp;#10">
 <meta property="og:type" content="article">
-<meta property="og:title" content="3.NAS篇：群晖系统的station应用">
-<meta property="og:url" content="http://example.com/2022/01/18/03/index.html">
+<meta property="og:title" content="3.NAS篇：搭建的hexo博客挂到GitHub（踩了很多坑）">
+<meta property="og:url" content="http://example.com/2022/01/18/04/index.html">
 <meta property="og:site_name" content="Leeの日志">
-<meta property="og:description" content="群晖系统的station应用环境硬件和系统先说环境，我是用一台老的笔记本搭建的黑群晖，所以更新什么的就不多想了；硬盘呢除了有一个USB外接硬盘外，其他的不影响使用；群晖系统是DSM 6.17 DS3615+ ##步骤 ###用户首先添加用户，在控制面版-&gt;用户，添加一些用户，如a,b,c ###photo stationphoto station，打开套件中心，搜索photo station">
+<meta property="og:description" content="群晖NAS   环境环境不细说，还是老笔记本搭建的NAS，已安装node.js 12版本，hexo安装完，本地访问 local:4000 没有问题，开始挂GitHub，FLOW ME. 步骤​    vi _config.yml  ​    node -v ​    chmod -R 700 ~&#x2F;.ssh&#x2F; ​    ssh -T &amp;#103;&amp;#x69;&amp;#116;&amp;#64;&amp;#x67;&amp;#10">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/03.png">
-<meta property="article:published_time" content="2022-01-18T02:39:59.169Z">
-<meta property="article:modified_time" content="2022-01-18T02:37:39.000Z">
+<meta property="article:published_time" content="2022-01-18T08:12:24.496Z">
+<meta property="article:modified_time" content="2022-01-18T08:10:30.000Z">
 <meta property="article:author" content="Huan Lee">
 <meta property="article:tag" content="NAS,私有云,软路由,网络,python,脚本,服务端">
 <meta name="twitter:card" content="summary">
@@ -157,37 +157,36 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-03" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-04" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      3.NAS篇：群晖系统的station应用
+      3.NAS篇：搭建的hexo博客挂到GitHub（踩了很多坑）
     </h1>
   
 
         
-        <a href="/2022/01/18/03/" class="archive-article-date">
-  	<time datetime="2022-01-18T02:39:59.169Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-01-18</time>
+        <a href="/2022/01/18/04/" class="archive-article-date">
+  	<time datetime="2022-01-18T08:12:24.496Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-01-18</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="群晖系统的station应用"><a href="#群晖系统的station应用" class="headerlink" title="群晖系统的station应用"></a>群晖系统的station应用</h1><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><h3 id="硬件和系统"><a href="#硬件和系统" class="headerlink" title="硬件和系统"></a>硬件和系统</h3><p>先说环境，我是用一台老的笔记本搭建的黑群晖，所以更新什么的就不多想了；<br>硬盘呢除了有一个USB外接硬盘外，其他的不影响使用；<br>群晖系统是DSM 6.17 DS3615+</p>
-<p>##步骤</p>
-<p>###用户<br>首先添加用户，在控制面版-&gt;用户，添加一些用户，如a,b,c</p>
-<p>###photo station<br>photo station，打开套件中心，搜索photo station，下载安装即可，安装后会自动建立photos文件夹，然后复制图片到这个文件夹就可以使用photo station识别并使用了，接下来就是photo station的设置了；<br>1.打开photo station，新建一个相册，设置为公共相册（共享相册，这个是给大家看的），点击右键,选择编辑相册属性，设置权限；</p>
-<p>2.打开photo station，新建多个相册，设置为私密相册（这个是给用户们自己看的，如a），点击右键,选择编辑相册属性，设置权限（给谁看就把权限给谁，如a）；</p>
-<p>其他：也尝试了个人photo station，发现这个是为每个用户单独创建photo station服务，共享给其他用户是不可能的了，只能共享链接，非常不方便，不适合家庭这种各自独立但又能方便共享。</p>
-<p>photo station就说到这了，其他station基本上也跟这个差不太多，比这个还要简单点，就不在说了，下面说说移动端：</p>
-<p>我的手机是鸿蒙系统，这对于后面还是有影响的，咱们开始：<br>下载DS全家桶（也可以下载需要用到的），打开DS photo，登录就不说了，直接到界面，点击左上角的三道杠，选择“照片备份”，再点击右上角的三道竖杠，配置备份策略，然后等待备份完成；</p>
-<p>返回相册，可以看下是否是自己需要的，这个是跟前面设置相册属性里面的权限有关；</p>
-<p>然后就是DS AUDIO，这个遇到鸿蒙系统会有点异常，好在已经完美解决，正常打开这个app，里面的歌曲是跟NAS/music文件夹有关联，设置自定义歌单类似DS photo，当下载的时候会提示需要手机授权，然后确认就可以了，但是鸿蒙系统的反复设置权限仍然无法正常下载，遇到这个问题，就需要在授权界面，选择手机存储，找到手机的music文件夹，然后再授权，完美解决；</p>
-<p>其他的就不详细再说，说下跟公有云同步的设置，国内大多数还是用百度网盘多，先在NAS上面打开套件中心，搜索Cloud Sync，下载并安装，然后打开，按照提示设置，基本上也没有多大问题，这个跟百度网盘/我的应用/cloud 关联的。</p>
+        <h1 id="群晖NAS"><a href="#群晖NAS" class="headerlink" title="群晖NAS"></a>群晖NAS</h1><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=1330348068&auto=1&height=66"></iframe>
+
+
+<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>环境不细说，还是老笔记本搭建的NAS，已安装node.js 12版本，hexo安装完，本地访问 local:4000 没有问题，开始挂GitHub，FLOW ME.</p>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><p>​    vi _config.yml </p>
+<p>​    node -v</p>
+<p>​    chmod -R 700 ~/.ssh/</p>
+<p>​    ssh -T <a href="mailto:&#103;&#x69;&#116;&#64;&#x67;&#105;&#116;&#x68;&#117;&#98;&#46;&#x63;&#111;&#109;">&#103;&#x69;&#116;&#64;&#x67;&#105;&#116;&#x68;&#117;&#98;&#46;&#x63;&#111;&#109;</a></p>
+<p>​    vi ~/.ssh/id_rsa.pub </p>
+<p>​    ssh-keygen</p>
 <p>OJBK，以上就是我使用的记录了，希望对有需要的人有帮助，我下一篇准备写一个搭建软路由的记录，有兴趣的也可以来坐坐，BBYE。</p>
 <p><img src="/images/03.png" alt="alt"></p>
 
@@ -269,7 +268,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2022/01/18/03/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2022/01/18/04/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -283,18 +282,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2022/01/18/04/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2022/01/20/05/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          3.NAS篇：搭建的hexo博客挂到GitHub（踩了很多坑）
+          3.UPS篇：简单UPS如何做到控制终端关机
         
       </div>
     </a>
   
   
-    <a href="/2022/01/17/02/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">2.笔记本改群晖NAS记录</div>
+    <a href="/2022/01/18/03/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">3.NAS篇：群晖系统的station应用</div>
       <i class="icon-circle-right"></i>
     </a>
   
